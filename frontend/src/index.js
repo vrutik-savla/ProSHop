@@ -14,6 +14,9 @@ import App from "./App";
 import HomeScreen from "./screens/HomeScreen";
 // 11. Product Details Page
 import ProductScreen from "./screens/ProductScreen";
+// 28. Redux Store & API Slice
+import { Provider } from "react-redux";
+import store from "./store";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +30,9 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-    {/* <App /> */}
+    <Provider store={store}>
+      <RouterProvider router={router} />
+      {/* <App /> */}
+    </Provider>
   </React.StrictMode>
 );

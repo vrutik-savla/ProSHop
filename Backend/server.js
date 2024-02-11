@@ -5,27 +5,26 @@ import express from "express";
 import connectDB from "./config/db.js";
 // 15. Environment Variables
 import dotenv from "dotenv";
-import products from "./data/products.js";
+// 24. Get Products From Database
+import productRoutes from "./routes/productRoutes.js";
+// 25. Custom Error Middleware
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
-
 connectDB(); //Connect to MongoDB
-
 const app = express();
 
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-app.get("/api/products", (req, res) => {
-  res.json(products);
-});
+// 24. Get Products From Database
+app.use("/api/products", productRoutes);
 
-app.get("/api/product/:id", (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
-  res.json(product);
-});
+// 25. Custom Error Middleware
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
